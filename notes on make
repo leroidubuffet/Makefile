@@ -1,0 +1,86 @@
+https://stackoverflow.com/questions/26065734/makefile-enforce-library-dependency-ordering/26066761#26066761
+	1. Make is invoked to create a target or series or targets. Left side of :
+	2. There are two kinds of targets: real and phony
+	3. A target may have a % therefore matching a series of targets
+	4. Sources are files already present before make is invoked
+	5. A target depends on prerequisites, Right side of :
+	6. A real target should have a recipe (a shell script)\
+		A recipe should only create the target file\
+		The target file should be referred using $@ in the recipe\
+		The recipe may read multiple prerequisite/dependency files.
+	7. Phony targets should not have recipes
+	8. A phony target can depend on other phony targets, 
+	real targets, or sources. A real target must only depend 
+	on real targets, or sources. Everything eventually (recursively) 
+	depends on sources only.
+	9. Make should not be called recursively in recipes
+	10. Use include to include other makefiles
+
+
+#rule
+#targets are not really files, just names to be called by make <name>
+#first rule is prioritary and the rest not executed unless called
+#commands are intended to create the target file from dependencies
+<target_file>: <dependency_file> <dependency_file> #Rule only runs if dependencies/prerequisites exist
+	<command>
+	<command>
+	@<silent_command>
+
+<target_file>: #With no dependencies rule always runs
+	<command>
+	<command>
+	@<silent_command>
+
+<target_file> <target_file>: #Will run for each target
+	<command>
+
+<variable> := <element> <element> <element> 
+
+<variable> ?= <value> #checks if the variable has been assigned already 
+
+$(variable) or ${variable} #to call it
+
+all: <target_file> <target_file> <target_file> #Runs many rules
+
+@<command> silences commands
+
+#automatic variables
+$@ #Target name
+$? #prerequisites newer than the target
+$^ #all preresquisites
+$< #first prerequisite
+
+* #wildcard Best wrapped 
+$(wildcard *.c)
+
+%
+#When used in "matching" mode, it matches one or more characters in a string.\
+This match is called the stem.
+#When used in "replacing" mode, it takes the stem that was matched and replaces that in a string.
+# % is most often used in rule definitions and in some specific functions.
+
+include <filename> <filename> <filename> #To add other makefiles
+
+${SRCS:.c=.o} or ${SRCS:c=o}
+
+#take the variable value ${SRCS}, 
+which is a string composed of words separated by spaces, 
+and for each word change c by o
+
+.PHONY: means target is not a file
+
+.PHONY: clean
+
+clean:
+	rm -f file1 file2 some_file
+
+CONDITIONALS
+ifeq(<object>, <value>)
+	<comand>
+else
+	<command>
+endif
+
+make -C <dir> is a command that changes the directory and will execute the Makefile stored in it.
+
+$(addprefix prefix,names…) adds the prefix to the list of names
