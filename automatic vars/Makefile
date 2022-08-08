@@ -1,12 +1,12 @@
 hey: one two
 	# Outputs "hey", since this is the first target
-	echo $@
+	@echo $@
 
 	# Outputs all prerequisites newer than the target
-	echo $?
+	@echo $?
 
 	# Outputs all prerequisites
-	echo $^
+	@echo $^
 
 	touch hey
 

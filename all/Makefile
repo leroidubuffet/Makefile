@@ -1,17 +1,19 @@
-files := 1 2 3
+files := one two three
 
 all: $(files)
 	@echo "making file" $@
-1: one
+one: one
 	@touch one
 	@echo "making file "$@
-2: two
+two: 
 	@touch two
 	@echo "making file "$@
-3: three
+three:
 	@touch three
 	@echo "making file "$@
 clean:
 	@rm -f $(files)
 	@echo "all clean"
-	@ls -l
+	@ls
+fuck: $(files)
+	@echo "Ok. Fuck"

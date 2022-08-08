@@ -3,5 +3,8 @@ silenced_hello: silenced.txt #runs whenever silenced.txt exists
 
 silenced.txt:
 	@echo "Silence please." > silenced.txt
-	echo "I am noise" > noise.txt	
+	@echo "I am noise" > noise.txt	
 
+clean:
+	@rm *.txt
+	ls
